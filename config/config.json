@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "root",
+    "database": "fullstack-caseguru",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "root",
+    "database": "fullstack-caseguru",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}
