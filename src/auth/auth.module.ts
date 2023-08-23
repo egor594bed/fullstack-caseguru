@@ -5,13 +5,14 @@ import { EmployeeModule } from "src/employee/employee.module";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { Employee } from "src/employee/employee.model";
 import { JwtModule } from "@nestjs/jwt";
+import { Position } from "src/position/position.model";
+import { PositionGuard } from "./position.guard";
 
 @Module({
   controllers: [AuthController],
   providers: [AuthService],
   imports: [
     SequelizeModule.forFeature([Employee]),
-    EmployeeModule,
     JwtModule.register({
       secret: `${process.env.JWT_SECRET}`,
       signOptions: {
@@ -19,5 +20,6 @@ import { JwtModule } from "@nestjs/jwt";
       },
     }),
   ],
+  exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

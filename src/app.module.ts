@@ -7,6 +7,7 @@ import { Employee } from "./employee/employee.model";
 import { AuthModule } from "./auth/auth.module";
 import { StatisticModule } from "./statistic/statistic.module";
 import { PositionModule } from "./position/position.module";
+import { Position } from "./position/position.model";
 
 @Module({
   controllers: [],
@@ -22,13 +23,13 @@ import { PositionModule } from "./position/position.module";
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [Employee],
+      models: [Position, Employee],
       autoLoadModels: true,
     }),
+    PositionModule,
     EmployeeModule,
     AuthModule,
     StatisticModule,
-    PositionModule,
   ],
 })
 export class AppModule {}

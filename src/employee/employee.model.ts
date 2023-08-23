@@ -1,14 +1,21 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from "sequelize-typescript";
+import { Position } from "src/position/position.model";
 
 interface IUserCreationAttributes {
   fullname: string;
   birthday: string;
-  position: string;
   salary: number;
   dateOfHiring: string;
 }
 
-@Table({ tableName: "employees" })
+@Table({ tableName: "employees", createdAt: false, updatedAt: false })
 export class Employee extends Model<Employee, IUserCreationAttributes> {
   @Column({
     type: DataType.INTEGER,
@@ -30,9 +37,6 @@ export class Employee extends Model<Employee, IUserCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   birthday: string;
 
-  @Column({ type: DataType.STRING, allowNull: false, defaultValue: "employee" })
-  position: string;
-
   @Column({ type: DataType.INTEGER, allowNull: false })
   salary: number;
 
@@ -44,4 +48,12 @@ export class Employee extends Model<Employee, IUserCreationAttributes> {
 
   @Column({ type: DataType.STRING })
   dateOfDismissal: string;
+
+  @ForeignKey(() => Position)
+  @BelongsTo(() => Position, {
+    as: "position",
+    foreignKey: "employeePositionId",
+  })
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  employeePositionId: number;
 }

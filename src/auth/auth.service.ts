@@ -4,6 +4,8 @@ import * as bcrypt from "bcryptjs";
 import { AuthDto, AuthRegistrationDto } from "./dto/auth.dto";
 import { Employee } from "src/employee/employee.model";
 import { JwtService } from "@nestjs/jwt";
+import { Position } from "src/position/position.model";
+import { EmployeeDtoWhithPosition } from "src/employee/dto/employee.dto";
 
 @Injectable()
 export class AuthService {
@@ -13,9 +15,10 @@ export class AuthService {
   ) {}
 
   async login(authDto: AuthDto) {
-    const employee = await this.employeeRepository.findOne({
+    const employee = (await this.employeeRepository.findOne({
       where: { username: authDto.username },
-    });
+      include: Position,
+    })) as Employee & { position: Position };
 
     if (!employee) {
       throw new HttpException(
@@ -36,13 +39,14 @@ export class AuthService {
       );
     }
 
-    return this.generateToken(employee.employeeId, employee.position);
+    return this.generateToken(employee.employeeId, employee.position.position);
   }
 
   async registration(authRegistrationDto: AuthRegistrationDto) {
-    const employee = await this.employeeRepository.findByPk(
-      authRegistrationDto.employeeId
-    );
+    const employee = (await this.employeeRepository.findOne({
+      where: { employeeId: authRegistrationDto.employeeId },
+      include: Position,
+    })) as Employee & { position: Position };
 
     if (!employee) {
       throw new HttpException(
@@ -76,7 +80,7 @@ export class AuthService {
 
     await employee.save();
 
-    return this.generateToken(employee.employeeId, employee.position);
+    return this.generateToken(employee.employeeId, employee.position.position);
   }
 
   async generateToken(employeeId: number, position: string) {

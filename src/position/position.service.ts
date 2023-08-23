@@ -1,4 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/sequelize";
+import { Position } from "./position.model";
 
 @Injectable()
-export class PositionService {}
+export class PositionService {
+  constructor(
+    @InjectModel(Position) private positionRepository: typeof Position
+  ) {}
+
+  async createPosition(position: string) {
+    await this.positionRepository.create({
+      position,
+    });
+  }
+
+  async getPosition(positionId: number) {
+    return this.positionRepository.findByPk(positionId);
+  }
+
+  async getPositionByValue(position: string) {
+    return this.positionRepository.findOne({ where: { position: position } });
+  }
+}
