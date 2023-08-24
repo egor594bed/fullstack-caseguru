@@ -37,7 +37,7 @@ export class EmployeeController {
 
   @PositionDecorator("hr")
   @UseGuards(PositionGuard)
-  @Get("dismissEmployee")
+  @Patch("dismissEmployee")
   dismissEmployee(@Query("employeeId") employeeId: string) {
     return this.employeeService.dismissEmployee(employeeId);
   }

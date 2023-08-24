@@ -5,7 +5,6 @@ import { AuthDto, AuthRegistrationDto } from "./dto/auth.dto";
 import { Employee } from "src/employee/employee.model";
 import { JwtService } from "@nestjs/jwt";
 import { Position } from "src/position/position.model";
-import { EmployeeDtoWhithPosition } from "src/employee/dto/employee.dto";
 
 @Injectable()
 export class AuthService {
@@ -39,7 +38,15 @@ export class AuthService {
       );
     }
 
-    return this.generateToken(employee.employeeId, employee.position.position);
+    const token = await this.generateToken(
+      employee.employeeId,
+      employee.position.position
+    );
+
+    return {
+      token: token,
+      employeeId: employee.employeeId,
+    };
   }
 
   async registration(authRegistrationDto: AuthRegistrationDto) {
@@ -80,7 +87,15 @@ export class AuthService {
 
     await employee.save();
 
-    return this.generateToken(employee.employeeId, employee.position.position);
+    const token = await this.generateToken(
+      employee.employeeId,
+      employee.position.position
+    );
+
+    return {
+      token: token,
+      employeeId: employee.employeeId,
+    };
   }
 
   async generateToken(employeeId: number, position: string) {

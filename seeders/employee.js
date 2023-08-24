@@ -11,7 +11,7 @@ module.exports = {
         birthday: "2000-01-01",
         salary: 100,
         dateOfHiring: "2022-01-01",
-        employeePositionId: 1,
+        employeePositionId: 2,
       },
     ]);
   },
