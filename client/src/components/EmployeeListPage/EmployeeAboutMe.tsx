@@ -2,6 +2,7 @@ import { FC } from "react";
 import { EmployeeDtoWhithPosition } from "../../types/EmployeeTypes";
 import { Box, Typography } from "@mui/material";
 import dayjs from "dayjs";
+import { positionsRu } from "../../const/positionLocalization";
 
 type Props = {
   aboutMe: EmployeeDtoWhithPosition;
@@ -15,7 +16,9 @@ export const EmployeeAboutMe: FC<Props> = ({ aboutMe }) => {
         <Box>
           <Typography>ФИО: {aboutMe.fullname}</Typography>
           <Typography>Зарплата: {aboutMe.salary}</Typography>
-          <Typography>Должность: {aboutMe.position.position}</Typography>
+          <Typography>
+            Должность: {positionsRu[aboutMe.position.positionId]}
+          </Typography>
         </Box>
         <Box>
           <Typography>

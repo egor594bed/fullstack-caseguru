@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import {
-  CreateEmployeeDto,
   EmployeeDto,
   EmployeeDtoWhithPosition,
 } from "../../types/EmployeeTypes";
@@ -19,10 +18,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import apiEmployeeService from "../../services/api-employee-service";
 import { useHttp } from "../../hooks/http.hook";
+import { positionsRu } from "../../const/positionLocalization";
 
 type Props = {
   employee: EmployeeDtoWhithPosition;
@@ -33,7 +34,7 @@ export const EmployeeEditItem: FC<Props> = ({ employee, update }) => {
   const { request, loading } = useHttp();
   const [expanded, setExpanded] = useState<boolean>(false);
   const employeeId = useSelector((state: RootState) => state.auth.employeeId);
-  const [data, setData] = useState<EmployeeDto>({
+  const [data, setData] = useState<EmployeeDtoWhithPosition>({
     ...employee,
     employeePositionId: employee.position.positionId,
   });
@@ -61,14 +62,12 @@ export const EmployeeEditItem: FC<Props> = ({ employee, update }) => {
 
   return (
     <Accordion expanded={expanded} onChange={() => setExpanded(!expanded)}>
-      <AccordionSummary
-      // expandIcon={<ExpandMoreIcon />}
-      >
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography sx={{ width: "50%", flexShrink: 0 }}>
           {employee.fullname}
         </Typography>
         <Typography sx={{ color: "text.secondary" }}>
-          {employee.position.position}
+          {positionsRu[data.position.positionId]}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
