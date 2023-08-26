@@ -25,7 +25,7 @@ export class EmployeeDto extends CreateEmployeeDto {
   }
 }
 
-export class EmployeeDtoWhithPosition extends CreateEmployeeDto {
+export class EmployeeDtoWhithPosition extends EmployeeDto {
   position: Position;
 
   constructor(employee: Employee & { position: Position }) {

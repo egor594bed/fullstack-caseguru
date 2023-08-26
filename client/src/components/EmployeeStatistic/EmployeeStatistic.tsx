@@ -5,6 +5,8 @@ import apiEmployeeService from "../../services/api-employee-service";
 import { Statistic } from "../../types/StatisticTypes";
 import { StatisticChart } from "./StatisticChart";
 import { BirthdaysTable } from "./BirthdaysTable";
+import { DefaultContainer } from "../UI/DefaultContainer/DefaultContainer";
+import { Loading } from "../UI/Loading/Loading";
 
 export const EmployeeStatistic = () => {
   const { request, loading, error } = useHttp();
@@ -33,6 +35,10 @@ export const EmployeeStatistic = () => {
     });
   }, [statistic]);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   if (error) {
     return (
       <Typography
@@ -53,10 +59,7 @@ export const EmployeeStatistic = () => {
 
   return (
     <>
-      <Typography variant="h4" sx={{ textAlign: "center", marginBottom: 2 }}>
-        Статистика по сотрудникам
-      </Typography>
-      <Box>
+      <DefaultContainer>
         <Typography variant="h5">Нанято:</Typography>
         <Typography variant="subtitle1">
           За год: {statistic.hiredEmployees.lastYearHiredEmployees}
@@ -71,9 +74,13 @@ export const EmployeeStatistic = () => {
         <Typography variant="subtitle1">
           За месяц: {statistic.dismissedEmployees.lastMonthDismissedEmployees}
         </Typography>
-      </Box>
-      <StatisticChart salaryPayouts={salaryPayouts} />
-      <BirthdaysTable futureMonthBirthdays={statistic.futureMonthBirthdays} />
+      </DefaultContainer>
+      <DefaultContainer>
+        <StatisticChart salaryPayouts={salaryPayouts} />
+      </DefaultContainer>
+      <DefaultContainer>
+        <BirthdaysTable futureMonthBirthdays={statistic.futureMonthBirthdays} />
+      </DefaultContainer>
     </>
   );
 };

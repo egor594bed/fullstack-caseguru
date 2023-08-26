@@ -46,6 +46,7 @@ export class AuthService {
     return {
       token: token,
       employeeId: employee.employeeId,
+      position: employee.position.position,
     };
   }
 
@@ -95,6 +96,7 @@ export class AuthService {
     return {
       token: token,
       employeeId: employee.employeeId,
+      position: employee.position.position,
     };
   }
 

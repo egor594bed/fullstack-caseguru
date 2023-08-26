@@ -44,7 +44,7 @@ class ApiEmployeeService {
     });
   }
 
-  dismissEmployee(employeeId: string) {
+  dismissEmployee(employeeId: number) {
     return fetch(
       `${baseUri}employee/dismissEmployee/?employeeId=${employeeId}`,
       {

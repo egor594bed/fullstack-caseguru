@@ -37,7 +37,7 @@ export const BirthdaysTable: FC<Props> = ({ futureMonthBirthdays }) => {
               <TableCell component="th" scope="row">
                 {employee.fullname}
               </TableCell>
-              <TableCell align="right">{employee.birthday}</TableCell>
+              <TableCell align="right">{employee.birthday as string}</TableCell>
             </TableRow>
           ))}
         </TableBody>

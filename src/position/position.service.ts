@@ -18,7 +18,7 @@ export class PositionService {
     return this.positionRepository.findByPk(positionId);
   }
 
-  async getPositionByValue(position: string) {
+  async getPositionByValue(position: number): Promise<Position> {
     return this.positionRepository.findOne({ where: { position: position } });
   }
 }

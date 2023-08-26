@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { setAuth } from "../redux/slices/auth";
+import { logut } from "../redux/slices/auth";
 
 export const useHttp = () => {
   const [loading, setLoading] = useState(false);
@@ -14,11 +14,11 @@ export const useHttp = () => {
       const data = await response.json();
 
       if (response.status === 401) {
-        dispatch(setAuth({ isAuth: false, token: "" }));
+        dispatch(logut());
         throw new Error(data.message || "Пользователь не авторизован");
       }
       if (response.status === 403) {
-        throw new Error("Нет прав для просмотра страницы");
+        throw new Error("Доступ запрещен");
       }
       if (!response.ok) {
         throw new Error(data.message || "Что-то пошло не так");

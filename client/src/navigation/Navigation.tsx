@@ -6,11 +6,8 @@ import { EmployeeListPage } from "../pages/EmployeeListPage";
 import { EmployeeStatisticPage } from "../pages/EmployeeStatisticPage";
 import { NewEmployeeAuth } from "../pages/NewEmployeeAuth";
 import { RootState } from "../redux/store";
-// import { useSelector } from "react-redux";
-// import { RootState } from "../redux/store";
 
 export const Navigation = () => {
-  //   const isAuth = useSelector((state: RootState) => state.auth.isAuth);
   const isAuth = useSelector((state: RootState) => state.auth.isAuth);
 
   return (
@@ -19,6 +16,7 @@ export const Navigation = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<EmployeeListPage />} />
           <Route path="statistic" element={<EmployeeStatisticPage />} />
+          <Route path="*" element={<EmployeeListPage />} />
         </Route>
       ) : (
         <Route path="/">

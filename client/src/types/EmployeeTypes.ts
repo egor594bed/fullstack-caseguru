@@ -1,8 +1,10 @@
+import dayjs from "dayjs";
+
 export type CreateEmployeeDto = {
   fullname: string;
-  birthday: string;
+  birthday: string | dayjs.Dayjs;
   salary: number;
-  dateOfHiring: string;
+  dateOfHiring: string | dayjs.Dayjs;
   employeePositionId?: number;
 };
 
@@ -15,6 +17,6 @@ export type Position = {
   position: string;
 };
 
-export type EmployeeDtoWhithPosition = CreateEmployeeDto & {
+export type EmployeeDtoWhithPosition = EmployeeDto & {
   position: Position;
 };
