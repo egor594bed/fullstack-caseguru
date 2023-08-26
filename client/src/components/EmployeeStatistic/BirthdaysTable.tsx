@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 import { EmployeeDto } from "../../types/EmployeeTypes";
+import dayjs from "dayjs";
 
 type Props = {
   futureMonthBirthdays: EmployeeDto[];
@@ -37,7 +38,9 @@ export const BirthdaysTable: FC<Props> = ({ futureMonthBirthdays }) => {
               <TableCell component="th" scope="row">
                 {employee.fullname}
               </TableCell>
-              <TableCell align="right">{employee.birthday as string}</TableCell>
+              <TableCell align="right">
+                {dayjs(employee.birthday).format("DD.MM.YYYY")}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

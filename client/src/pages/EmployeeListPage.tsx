@@ -16,12 +16,12 @@ import { EmployeeDtoWhithPosition } from "../types/EmployeeTypes";
 export const EmployeeListPage = () => {
   const { request, loading } = useHttp();
   const [employees, setEmployees] = useState<EmployeeDtoWhithPosition[]>([]);
-  const employeeId = useSelector((state: RootState) => state.auth.employeeId);
+  const employeeAuth = useSelector((state: RootState) => state.auth);
 
   const update = useCallback(() => {
     request(() => apiEmployeeService.getEmployees()).then(
       (data: EmployeeDtoWhithPosition[]) => {
-        setEmployees(data);
+        setEmployees([...data]);
       }
     );
   }, []);
@@ -31,8 +31,10 @@ export const EmployeeListPage = () => {
   }, []);
 
   const aboutMe = useMemo(() => {
-    return employees.find((employee) => employee.employeeId === employeeId);
-  }, [employees, employeeId]);
+    return employees.find(
+      (employee) => employee.employeeId === employeeAuth.employeeId
+    );
+  }, [employees]);
 
   if ((loading && !employees) || !aboutMe) {
     return <Loading />;
@@ -49,9 +51,12 @@ export const EmployeeListPage = () => {
         <DefaultContainer>
           <EmployeeAboutMe aboutMe={aboutMe} />
         </DefaultContainer>
-        <DefaultContainer>
-          <AddNewEmployee />
-        </DefaultContainer>
+        {employeeAuth.position !== "employee" && (
+          <DefaultContainer>
+            <AddNewEmployee update={update} />
+          </DefaultContainer>
+        )}
+
         <DefaultContainer>
           <EmployeeList employees={employees} update={update} />
         </DefaultContainer>

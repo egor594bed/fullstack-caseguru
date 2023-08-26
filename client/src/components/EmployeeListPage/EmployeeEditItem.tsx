@@ -77,10 +77,11 @@ export const EmployeeEditItem: FC<Props> = ({ employee, update }) => {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            gap: 2,
           }}
           onSubmit={(e) => handleSubmit(e)}
         >
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
             <TextField
               sx={{ marginBottom: 2 }}
               label="ФИО"
@@ -98,7 +99,7 @@ export const EmployeeEditItem: FC<Props> = ({ employee, update }) => {
               required
             ></TextField>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
             <DatePicker
               sx={{ marginBottom: 2 }}
               label="Дата рождения"
@@ -120,9 +121,10 @@ export const EmployeeEditItem: FC<Props> = ({ employee, update }) => {
               display: "flex",
               flexDirection: "column",
               alignItems: "stretch",
+              width: "100%",
             }}
           >
-            <FormControl>
+            <FormControl sx={{ width: "100%" }}>
               <InputLabel id="position-label">Должность</InputLabel>
               <Select
                 labelId="position-label"
@@ -149,6 +151,7 @@ export const EmployeeEditItem: FC<Props> = ({ employee, update }) => {
             onClick={handleDismiss}
             sx={{
               ":hover": { backgroundColor: "red" },
+              width: "30%",
             }}
             disabled={employeeId === data.employeeId || loading}
           >
