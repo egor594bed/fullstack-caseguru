@@ -131,7 +131,7 @@ export const AddNewEmployee: FC<Props> = ({ update }) => {
         <Button
           type="submit"
           variant="contained"
-          disabled={loading}
+          disabled={loading || !newEmployee.fullname}
           sx={{ display: "flex", width: "30%" }}
         >
           Добавить
