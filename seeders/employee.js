@@ -6,7 +6,8 @@ module.exports = {
     return queryInterface.bulkInsert("employees", [
       {
         username: "hr1",
-        password: "123456",
+        password:
+          "$2y$05$paZ5MwpWDPfCR.VU3oE07etXF3pBbyPsv6ZmqgZGgW3wz5GhuRAau",
         fullname: "Иванов Иван Иванович",
         birthday: "2000-01-01",
         salary: 100,
