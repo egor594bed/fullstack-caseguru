@@ -60,20 +60,27 @@ export const EmployeeStatistic = () => {
   return (
     <>
       <DefaultContainer>
-        <Typography variant="h5">Нанято:</Typography>
-        <Typography variant="subtitle1">
-          За год: {statistic.hiredEmployees.lastYearHiredEmployees}
-        </Typography>
-        <Typography variant="subtitle1">
-          За месяц: {statistic.hiredEmployees.lastMonthHiredEmployees}
-        </Typography>
-        <Typography variant="h5">Уволено:</Typography>
-        <Typography variant="subtitle1">
-          За год: {statistic.dismissedEmployees.lastYearDismissedEmployees}
-        </Typography>
-        <Typography variant="subtitle1">
-          За месяц: {statistic.dismissedEmployees.lastMonthDismissedEmployees}
-        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box>
+            <Typography variant="h5">Нанято:</Typography>
+            <Typography variant="subtitle1">
+              За год: {statistic.hiredEmployees.lastYearHiredEmployees}
+            </Typography>
+            <Typography variant="subtitle1">
+              За месяц: {statistic.hiredEmployees.lastMonthHiredEmployees}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="h5">Уволено:</Typography>
+            <Typography variant="subtitle1">
+              За год: {statistic.dismissedEmployees.lastYearDismissedEmployees}
+            </Typography>
+            <Typography variant="subtitle1">
+              За месяц:{" "}
+              {statistic.dismissedEmployees.lastMonthDismissedEmployees}
+            </Typography>
+          </Box>
+        </Box>
       </DefaultContainer>
       <DefaultContainer>
         <StatisticChart salaryPayouts={salaryPayouts} />
