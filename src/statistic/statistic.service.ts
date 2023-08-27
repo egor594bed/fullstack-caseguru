@@ -83,20 +83,37 @@ export class StatisticService {
     const employees = await this.getNonDismissedEmployees();
 
     const dateNow = new Date();
-    const dateFutureMonth = new Date(dateNow);
-    dateFutureMonth.setMonth(dateFutureMonth.getMonth() + 1);
 
     const futureMonthBirthdays = employees.filter((employee) => {
       const birthday = new Date(employee.birthday);
 
       if (
-        dateNow.getTime() <= birthday.getTime() &&
-        birthday.getTime() <= dateFutureMonth.getTime()
+        birthday.getMonth() - dateNow.getMonth() === 0 &&
+        birthday.getDate() - dateNow.getDate() >= 0
+      ) {
+        return true;
+      } else if (
+        birthday.getMonth() - dateNow.getMonth() === 1 &&
+        birthday.getDate() <= dateNow.getDate()
       ) {
         return true;
       }
 
       return false;
+    });
+
+    futureMonthBirthdays.sort((a, b) => {
+      const aDate = new Date(a.birthday);
+      const bDate = new Date(b.birthday);
+
+      if (aDate.getMonth() - bDate.getMonth() === 0) {
+        if (aDate.getDate() - bDate.getDate() === 0) {
+          return -1;
+        }
+        return aDate.getDate() - bDate.getDate();
+      } else if (aDate.getMonth() - bDate.getMonth() === 1) {
+        return 1;
+      }
     });
 
     return futureMonthBirthdays;
