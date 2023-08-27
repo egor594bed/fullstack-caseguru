@@ -4,6 +4,7 @@ import * as bcrypt from "bcryptjs";
 import { AuthDto, AuthRegistrationDto } from "./dto/auth.dto";
 import { Employee } from "src/employee/employee.model";
 import { JwtService } from "@nestjs/jwt";
+import { Response } from "express";
 import { Position } from "src/position/position.model";
 
 @Injectable()
@@ -13,7 +14,7 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async login(authDto: AuthDto) {
+  async login(authDto: AuthDto, response: Response) {
     const employee = (await this.employeeRepository.findOne({
       where: { username: authDto.username },
       include: Position,
@@ -43,8 +44,12 @@ export class AuthService {
       employee.position.position
     );
 
+    response.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 12,
+    });
+
     return {
-      token: token,
       employeeId: employee.employeeId,
       position: employee.position.position,
     };

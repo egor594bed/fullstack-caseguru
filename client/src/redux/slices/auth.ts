@@ -34,25 +34,10 @@ export const AuthSlice = createSlice({
   name: "authSlice",
   initialState,
   reducers: {
-    setAuth: (
-      state,
-      action: PayloadAction<{
-        isAuth: boolean;
-        token: string;
-        employeeId: number;
-        position: string;
-      }>
-    ) => {
-      state.isAuth = action.payload.isAuth;
-      state.employeeId = action.payload.employeeId;
-      state.position = action.payload.position;
-      localStorage.setItem("token", action.payload.token);
-    },
     logut: (state) => {
       state.isAuth = false;
       state.employeeId = 0;
       state.position = "";
-      localStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
@@ -64,14 +49,12 @@ export const AuthSlice = createSlice({
       (
         state,
         action: {
-          payload: { token: string; employeeId: number; position: string };
+          payload: { employeeId: number; position: string };
         }
       ) => {
-        if (!action.payload.token) return;
         state.isAuth = true;
         state.employeeId = action.payload.employeeId;
         state.position = action.payload.position;
-        localStorage.setItem("token", action.payload.token);
         state.loading = false;
       }
     );
@@ -81,5 +64,5 @@ export const AuthSlice = createSlice({
     });
   },
 });
-export const { setAuth, logut } = AuthSlice.actions;
+export const { logut } = AuthSlice.actions;
 export default AuthSlice.reducer;

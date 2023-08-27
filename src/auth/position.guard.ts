@@ -26,10 +26,9 @@ export class PositionGuard implements CanActivate {
       }
 
       const request = context.switchToHttp().getRequest();
-      const authHeader = request.headers.authorization;
-      const token = authHeader.split(" ")[1];
+      const token = request.cookies["token"];
 
-      if (!authHeader || !token) {
+      if (!token) {
         throw new UnauthorizedException({
           message: "Пользователь не авторизован",
         });

@@ -4,6 +4,7 @@ class AuthService {
   async login(username: string, password: string) {
     return fetch(`${baseUri}auth/login`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },

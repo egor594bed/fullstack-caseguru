@@ -5,8 +5,10 @@ class ApiEmployeeService {
   getEmployeeStatistics() {
     return fetch(`${baseUri}employee/getEmployeeStatistics`, {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
+
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
@@ -15,6 +17,7 @@ class ApiEmployeeService {
   createEmployee(body: CreateEmployeeDto) {
     return fetch(`${baseUri}employee/createEmployee`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -26,6 +29,7 @@ class ApiEmployeeService {
   editEmployee(body: EmployeeDto) {
     return fetch(`${baseUri}employee/editEmployee`, {
       method: "PATCH",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -37,6 +41,7 @@ class ApiEmployeeService {
   getEmployees() {
     return fetch(`${baseUri}employee/getEmployees`, {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -49,6 +54,7 @@ class ApiEmployeeService {
       `${baseUri}employee/dismissEmployee/?employeeId=${employeeId}`,
       {
         method: "PATCH",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
