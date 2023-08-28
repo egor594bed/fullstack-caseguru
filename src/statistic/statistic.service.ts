@@ -42,7 +42,7 @@ export class StatisticService {
   }
 
   async getHiredEmployees() {
-    const hiredEmployees = await this.getNonDismissedEmployees();
+    const hiredEmployees = await this.employeeRepository.findAll();
 
     const dateNow = new Date();
     const dateLastMonth = new Date(dateNow);
