@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
-  app.enableCors({ credentials: true, origin: "http://localhost:3000" });
+  app.enableCors({ credentials: true, origin: true });
   await app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
   });
