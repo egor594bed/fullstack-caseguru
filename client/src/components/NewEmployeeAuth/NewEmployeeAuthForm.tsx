@@ -1,21 +1,38 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
 import { useHttp } from "../../hooks/http.hook";
 import authService from "../../services/auth-service";
 import { useParams, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { InputWithValidation } from "../UI/InputWithValidation/InputWithValidation";
+
+type FormValues = {
+  username: string;
+  password: string;
+};
 
 export const NewEmployeeAuthForm = () => {
   const { request, loading, error } = useHttp();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const param = useParams();
   const navigate = useNavigate();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+  } = useForm<FormValues>({
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+    mode: "onChange",
+  });
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const submitHandler = async (data: FormValues) => {
     await request(() =>
-      authService.register(username, password, Number(param.employeeId))
+      authService.register(
+        data.username,
+        data.password,
+        Number(param.employeeId)
+      )
     );
 
     if (!error) {
@@ -31,24 +48,32 @@ export const NewEmployeeAuthForm = () => {
       >
         Регистрация в системе
       </Typography>
-      <Box component={"form"} onSubmit={submitHandler}>
-        <TextField
+      <Box component={"form"} onSubmit={handleSubmit(submitHandler)}>
+        <InputWithValidation
+          control={control}
+          name="username"
           label="Логин"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
+          errors={errors.username}
+          rules={{
+            required: true,
+            minLength: { value: 3, message: "Минимум 3 символа" },
+          }}
         />
-        <TextField
+        <InputWithValidation
+          control={control}
+          name="password"
           label="Пароль"
-          value={password}
           type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          required
+          errors={errors.password}
+          rules={{
+            required: true,
+            minLength: { value: 6, message: "Минимум 6 символов" },
+          }}
         />
         <Button
           variant="contained"
           type="submit"
-          disabled={loading || username === "" || password === ""}
+          disabled={loading || !isValid}
           sx={{ width: "100%", padding: 1, fontSize: 16 }}
         >
           Зарегистрироваться

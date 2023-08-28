@@ -1,40 +1,62 @@
-import { useState } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/slices/auth";
 import { AppDispatch, RootState } from "../../redux/store";
+import { useForm } from "react-hook-form";
+import { InputWithValidation } from "../UI/InputWithValidation/InputWithValidation";
+
+export type FormValues = {
+  username: string;
+  password: string;
+};
 
 export const AuthForm = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const dispatch = useDispatch<AppDispatch>();
   const { error, loading } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+  } = useForm<FormValues>({
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+    mode: "onBlur",
+  });
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(login({ username, password }));
+  const submitHandler = async (data: FormValues) => {
+    dispatch(login({ ...data }));
   };
 
   return (
-    <Box component="form" onSubmit={(e) => submitHandler(e)}>
+    <Box component="form" onSubmit={handleSubmit(submitHandler)}>
       <Typography
         variant="h5"
         sx={{ textAlign: "center", marginBottom: 2, color: "primary.main" }}
       >
         Авторизация
       </Typography>
-      <TextField
+      <InputWithValidation
+        control={control}
+        name="username"
         label="Логин"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
+        errors={errors.username}
+        rules={{
+          required: true,
+          minLength: { value: 3, message: "Минимум 3 символа" },
+        }}
       />
-      <TextField
+      <InputWithValidation
+        control={control}
+        name="password"
         label="Пароль"
-        value={password}
         type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        required
+        errors={errors.password}
+        rules={{
+          required: true,
+          minLength: { value: 6, message: "Минимум 6 символов" },
+        }}
       />
       <Box sx={{ height: 10, marginBottom: 2, marginTop: -1 }}>
         {error && <Typography sx={{ color: "error.main" }}>{error}</Typography>}
@@ -42,7 +64,7 @@ export const AuthForm = () => {
       <Button
         variant="contained"
         type="submit"
-        disabled={loading}
+        disabled={loading || !isValid}
         sx={{ width: "100%", padding: 1, fontSize: 16 }}
       >
         Войти
