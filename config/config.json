@@ -3,7 +3,7 @@
     "username": "postgres",
     "password": "root",
     "database": "fullstack-caseguru",
-    "host": "localhost",
+    "host": "postgres",
     "dialect": "postgres"
   },
   "production": {
