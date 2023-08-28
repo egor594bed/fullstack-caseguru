@@ -30,13 +30,21 @@ services:
     container_name: postgres
     image: postgres:latest
     env_file: .env
-    environment:
-      PG_DATA: /var/lib/postgresql/data
+    # environment:
+    #   PG_DATA: /var/lib/postgresql/data
     ports:
       - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+    # volumes:
+    #   - pgdata:/var/lib/postgresql/data
     restart: always
 
-volumes:
-  pgdata:
+  migration:
+    build: .
+    command: npm run migrations
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - main
+# volumes:
+#   pgdata:
